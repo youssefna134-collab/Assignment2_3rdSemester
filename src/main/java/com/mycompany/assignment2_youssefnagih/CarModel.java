@@ -4,8 +4,10 @@
  */
 package com.mycompany.assignment2_youssefnagih;
 
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
@@ -15,12 +17,12 @@ import javafx.scene.text.Text;
  *
  * @author scrub
  */
-public class CarModel {
-
+public class CarModel extends Group {
     
-    private final DropShadow shadow = new DropShadow();
+    private final Group frontWheel;
+    private final Group rearWheel;
 
-    public CarModel(CarRaceModel.CarData car) {
+    public CarModel(CarData car) {
         Color color = Color.web(car.getColorHex());
 
         // body and roof
@@ -44,6 +46,31 @@ public class CarModel {
         Text number = new Text(50 - num.length() * 3, 26.5, num);
         number.setFont(new Font("Arial Bold", 10));
         number.setFill(Color.BLACK);
+        
+        rearWheel = createWheel(24, 31);
+        frontWheel = createWheel(77, 31);
+        
+        getChildren().addAll(body, roof, window1, window2, badge, number, rearWheel, frontWheel);
 
+    }
+    
+    private static Group createWheel(double cx, double cy) {
+        Circle wheel = new Circle(cx, cy, 8, Color.DIMGRAY);
+        wheel.setStroke(Color.BLACK);
+        wheel.setStrokeWidth(2);
+        
+        Line spoke = new Line(cx, cy, cx, cy - 7);
+        spoke.setStroke(Color.WHITE);
+        spoke.setStrokeWidth(2);
+        
+        return new Group(wheel, spoke);
+    }
+    
+    public Group getFrontWheel() { 
+        return frontWheel; 
+    }
+    
+    public Group getRearWheel() { 
+        return rearWheel; 
     }
 }
