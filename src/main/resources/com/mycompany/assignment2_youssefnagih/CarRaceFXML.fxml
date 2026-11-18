@@ -1,14 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.assignment2_youssefnagih.CarRaceController">
-    <stylesheets>
-        <URL value="@/styles/carracefxml.css"/>
-    </stylesheets>
-</AnchorPane>
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.mycompany.assignment2_youssefnagih.CarRaceController" styleClass="root-pane" stylesheets="@../../styles/carracefxml.css" prefWidth="1000" prefHeight="720">
+
+    <BorderPane fx:id="racePane">
+        <top>
+            <Label text="Campus Grand Prix" styleClass="title" BorderPane.alignment="CENTER">
+                <BorderPane.margin><Insets top="12" bottom="8"/></BorderPane.margin>
+            </Label>
+        </top>
+
+        <center>
+            <Pane fx:id="track" styleClass="track" BorderPane.alignment="CENTER"
+                  prefWidth="920" prefHeight="410" minWidth="920" minHeight="410"
+                  maxWidth="920" maxHeight="410">
+
+                <Line startX="0" endX="920" startY="24" endY="24" stroke="WHITE" strokeWidth="3"/>
+                <Line styleClass="lane-dash" startX="0" endX="920" startY="96" endY="96" stroke="WHITE" strokeWidth="1.5"/>
+                <Line styleClass="lane-dash" startX="0" endX="920" startY="168" endY="168" stroke="WHITE" strokeWidth="1.5"/>
+                <Line styleClass="lane-dash" startX="0" endX="920" startY="240" endY="240" stroke="WHITE" strokeWidth="1.5"/>
+                <Line styleClass="lane-dash" startX="0" endX="920" startY="312" endY="312" stroke="WHITE" strokeWidth="1.5"/>
+                <Line startX="0" endX="920" startY="384" endY="384" stroke="WHITE" strokeWidth="3"/>
+
+                <Line startX="160" endX="160" startY="24" endY="384" stroke="WHITE" strokeWidth="3"/>
+                <Text text="START" layoutX="138" layoutY="16" fill="WHITE">
+                    <font><Font name="Arial Bold" size="12"/></font>
+                </Text>
+
+                <Rectangle x="860" y="24" width="18" height="360" fill="WHITE"/>
+                <Line styleClass="finish-dash" startX="864.5" endX="864.5" startY="24" endY="384" stroke="BLACK" strokeWidth="9"/>
+                <Line styleClass="finish-dash-offset" startX="873.5" endX="873.5" startY="24" endY="384" stroke="BLACK" strokeWidth="9"/>
+                <Text text="FINISH" layoutX="852" layoutY="16" fill="WHITE">
+                    <font><Font name="Arial Bold" size="12"/></font>
+                </Text>
+            </Pane>
+        </center>
+
+        <bottom>
+            <BorderPane>
+                <padding><Insets top="10" right="40" bottom="14" left="40"/></padding>
+
+                <left>
+                    <VBox spacing="12" prefWidth="320" alignment="CENTER_LEFT">
+                        <HBox spacing="10">
+                            <Button fx:id="startButton" text="Start" styleClass="race-button" onAction="#onStart"/>
+                            <Button fx:id="pauseButton" text="Pause" styleClass="race-button" onAction="#onPause"/>
+                            <Button fx:id="resetButton" text="Reset" styleClass="race-button" onAction="#onReset"/>
+                        </HBox>
+                        <Label fx:id="speedLabel" text="Speed: 1.0x" styleClass="speed-label"/>
+                        <Slider fx:id="speedSlider" min="0.5" max="3.0" value="1.0"
+                                showTickMarks="true" showTickLabels="true"
+                                majorTickUnit="0.5" minorTickCount="0"/>
+                    </VBox>
+                </left>
+
+                <right>
+                    <TextArea fx:id="messageArea" styleClass="message-area" editable="false" wrapText="true"
+                              prefWidth="560" prefHeight="160"/>
+                </right>
+            </BorderPane>
+        </bottom>
+    </BorderPane>
+
+    <VBox fx:id="slidePane" styleClass="root-pane" spacing="18" alignment="CENTER">
+        <Label text="Welcome to the Campus Grand Prix!" styleClass="title"/>
+        <Label text="Meet today's drivers. The race starts right after the show!" styleClass="subtitle"/>
+        <StackPane fx:id="carStage" minHeight="200" prefHeight="200"/>
+        <Label fx:id="carInfoLabel" styleClass="car-info"/>
+        <Button fx:id="skipButton" text="Skip intro" styleClass="race-button" onAction="#onSkip"/>
+    </VBox>
+</StackPane>
