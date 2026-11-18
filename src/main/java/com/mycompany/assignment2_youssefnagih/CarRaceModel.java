@@ -17,7 +17,6 @@ public class CarRaceModel {
     public static final double LANE_SPACING = 72;
     
     private final List<CarData> cars = new ArrayList<>();
-    private final List<CarData> finishOrder = new ArrayList<>();
     private final Random random = new Random();
 
     private void addCar(String type, int number, String colorName, String colorHex) {
@@ -45,8 +44,12 @@ public class CarRaceModel {
     
     // Give every car a new random speed in pixels per second
     public void randomizeSpeeds() {
-        for (CarData c : cars) {
-            c.setSpeed(65 + random.nextDouble() * 30);
+        for (CarData car : cars) {
+            car.setSpeed(65 + random.nextDouble() * 30);
         }
+    }
+    
+     public void updatePosition(CarData car, double x) {
+        car.setX(x);
     }
 }
