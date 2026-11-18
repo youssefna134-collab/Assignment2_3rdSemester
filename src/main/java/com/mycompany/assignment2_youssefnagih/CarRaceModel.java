@@ -18,6 +18,7 @@ public class CarRaceModel {
     
     private final List<CarData> cars = new ArrayList<>();
     private final Random random = new Random();
+    private final List<CarData> finishOrder = new ArrayList<>();
 
     private void addCar(String type, int number, String colorName, String colorHex) {
         double y = LANE_TOP + cars.size() * LANE_SPACING;
@@ -51,5 +52,11 @@ public class CarRaceModel {
     
      public void updatePosition(CarData car, double x) {
         car.setX(x);
+    }
+     
+     public void recordFinish(CarData car) {
+        if (!finishOrder.contains(car)) {
+            finishOrder.add(car);
+        }
     }
 }
