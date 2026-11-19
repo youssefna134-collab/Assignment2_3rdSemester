@@ -5,6 +5,7 @@
 package com.mycompany.assignment2_youssefnagih;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -50,13 +51,53 @@ public class CarRaceModel {
         }
     }
     
-     public void updatePosition(CarData car, double x) {
+    /*
+    updates position for a car
+    */
+    public void updatePosition(CarData car, double x) {
         car.setX(x);
     }
      
-     public void recordFinish(CarData car) {
+     /*
+     tracks every cars finishing spot
+     */
+    public void recordFinish(CarData car) {
         if (!finishOrder.contains(car)) {
             finishOrder.add(car);
         }
     }
+     
+     /*
+     true if the finish list is equal to the amount of cars. false otherwise
+     */
+    public boolean isRaceOver() {
+        return finishOrder.size() == cars.size();
+    }
+     
+     /*
+     gets the winner of the race
+     */
+    public CarData getWinner() {
+        return finishOrder.isEmpty() ? null : finishOrder.get(0);
+    }
+     
+     /*
+     gets the finishing order for the race
+     */
+    public List<CarData> getFinishOrder() {
+        return Collections.unmodifiableList(finishOrder);
+    }
+     
+    /*
+    resets the race completely
+    */
+    public void resetRace() {
+        for (CarData car : cars) {
+            car.setX(START_X);
+            car.setSpeed(0);
+        }
+        finishOrder.clear();
+    }
+
+     
 }
