@@ -27,11 +27,11 @@ public class CarRaceModel {
     }
     
     public CarRaceModel() {
-        addCar("Sports Coupe", 7, "Red", "#E53935");
+        addCar("SPORTS CAR", 7, "Red", "#E53935");
         addCar("Muscle Car", 22, "Blue", "#1E88E5");
-        addCar("Rally Hatch", 5, "Green", "#43A047");
-        addCar("Roadster", 88, "Yellow", "#FDD835");
-        addCar("Turbo Sedan", 13, "Purple", "#8E24AA");
+        addCar("YOUSSEF CAR", 5, "Green", "#43A047");
+        addCar("TRACKTOR", 88, "Yellow", "#FDD835");
+        addCar("FORMULA1", 13, "Purple", "#8E24AA");
     }
     
     public List<CarData> getCars() { 
@@ -98,6 +98,4 @@ public class CarRaceModel {
         }
         finishOrder.clear();
     }
-
-     
 }
