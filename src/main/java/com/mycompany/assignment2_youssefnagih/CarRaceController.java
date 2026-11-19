@@ -51,20 +51,15 @@ public class CarRaceController implements Initializable {
     private MediaPlayer player;
     private Timeline slideshow;
 
-            
-
     private enum State { 
         IDLE, RUNNING, PAUSED, FINISHED 
     }
     
     @FXML
-    private BorderPane racePane;
-    @FXML
     private Button startButton;
     @FXML
     private Button pauseButton;
     @FXML
-    private Button resetButton;
     @FXML
     private Label speedLabel;
     @FXML
@@ -79,13 +74,8 @@ public class CarRaceController implements Initializable {
     private StackPane carStage;
     @FXML
     private Label carInfoLabel;
-    @FXML
-    private Button skipButton;
     
-
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         speedLabel.textProperty().bind(speedSlider.valueProperty().asString("Speed: %.1fx"));
@@ -95,7 +85,8 @@ public class CarRaceController implements Initializable {
             shape.setLayoutX(CarRaceModel.START_X);
             shape.setLayoutY(car.getY());
             shape.translateXProperty().addListener((observable, oldValue, newValue) ->
-                    model.updatePosition(car, CarRaceModel.START_X + newValue.doubleValue()));
+                    model.updatePosition(car, CarRaceModel.START_X + newValue.doubleValue())
+            );
             carModels.add(shape);
             track.getChildren().add(shape);
         }
@@ -109,9 +100,26 @@ public class CarRaceController implements Initializable {
         messageArea.setText(INTRO);
         updateButtons();
     }    
+    
+    /*
+    SLIDESHOW, called by app once the window is showing
+    */
+    public void start() {
+        startSound();
+        int n = model.getCars().size();
+        slideshow = new Timeline();
+        for (int i = 0; i < n; i++) {
+            final int idx = i;
+            slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(i * 
+                    SLIDE_SECONDS), e -> showSlide(idx, n)));
+        }
+        slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(n * 
+                SLIDE_SECONDS), e -> endSlideshow()));
+        slideshow.play();
+    }
 
     /*
-    BUTTONS
+    ---------- BUTTONS
     */
      @FXML
     private void onStart() {
@@ -170,11 +178,10 @@ public class CarRaceController implements Initializable {
         startButton.setDisable(state == State.RUNNING || state == State.FINISHED);
         pauseButton.setDisable(state != State.RUNNING);
     }
-
-
     
+
     /*
-    SOUND MEDIA
+    -------- SOUND MEDIA
     */
     private void startSound() {
         try {
@@ -193,25 +200,9 @@ public class CarRaceController implements Initializable {
         }
     }
     
-    /*
-    SLIDESHOW, called by app once the window is showing
-    */
-    public void start() {
-        startSound();
-        int n = model.getCars().size();
-        slideshow = new Timeline();
-        for (int i = 0; i < n; i++) {
-            final int idx = i;
-            slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(i * 
-                    SLIDE_SECONDS), e -> showSlide(idx, n)));
-        }
-        slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(n * 
-                SLIDE_SECONDS), e -> endSlideshow()));
-        slideshow.play();
-    }
     
     /*
-    SHOWS SHAPE CAR
+    ---------- SHOWS SHAPE CAR
     */
     private void showSlide(int idx, int total) {
         CarData car = model.getCars().get(idx);
@@ -229,7 +220,7 @@ public class CarRaceController implements Initializable {
         fade.setToValue(1);
         fade.play();
     }
-
+    
     private void endSlideshow() {
         if (slideshow != null) {
             slideshow.stop();
@@ -239,7 +230,9 @@ public class CarRaceController implements Initializable {
         slidePane.setManaged(false);
     }
     
-    
+    /*
+    -------- RACE LOGIC AND RESULTS SHOWCASE
+    */
     private void launchRace() {
         model.randomizeSpeeds();
         races.clear();
@@ -277,6 +270,9 @@ public class CarRaceController implements Initializable {
         }
     }
     
+    /*
+    Identifies each car's position and puts it inside the text area
+    */
     private void carFinished(int idx) {
         CarData car = model.getCars().get(idx);
         model.recordFinish(car);
@@ -297,6 +293,9 @@ public class CarRaceController implements Initializable {
         }
     }
     
+    /* 
+    Helper method to build a string for the results
+    */
     private String buildResults() {
         CarData winner = model.getWinner();
         StringBuilder sb = new StringBuilder();
