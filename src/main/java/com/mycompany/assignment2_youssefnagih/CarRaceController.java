@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
+import javafx.animation.KeyFrame;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -20,6 +22,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.animation.ParallelTransition;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
+import javafx.util.Duration;
 
 
 
@@ -39,6 +45,7 @@ public class CarRaceController implements Initializable {
     private State state = State.IDLE;
     private final List<ParallelTransition> races = new ArrayList<>();
     private MediaPlayer player;
+    private Timeline slideshow;
 
             
 
@@ -99,6 +106,9 @@ public class CarRaceController implements Initializable {
         updateButtons();
     }    
 
+    /*
+    BUTTONS
+    */
      @FXML
     private void onStart() {
         if (state == State.IDLE) {
@@ -146,6 +156,11 @@ public class CarRaceController implements Initializable {
         updateButtons();
     }
     
+    @FXML
+    private void onSkip(ActionEvent event) {
+        endSlideshow();
+    }
+    
     private void updateButtons() {
         startButton.setDisable(state == State.RUNNING || state == State.FINISHED);
         pauseButton.setDisable(state != State.RUNNING);
@@ -153,7 +168,9 @@ public class CarRaceController implements Initializable {
 
 
     
-    
+    /*
+    SOUND MEDIA
+    */
     private void startSound() {
         try {
             Media media = new Media(getClass().getResource("/sounds/race.wav").toExternalForm());
@@ -170,6 +187,54 @@ public class CarRaceController implements Initializable {
             player.stop();
         }
     }
+    
+    /*
+    SLIDESHOW, called by app once the window is showing
+    */
+    public void start() {
+        startSound();
+        int n = model.getCars().size();
+        slideshow = new Timeline();
+        for (int i = 0; i < n; i++) {
+            final int idx = i;
+            slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(i * 
+                    SLIDE_SECONDS), e -> showSlide(idx, n)));
+        }
+        slideshow.getKeyFrames().add(new KeyFrame(Duration.seconds(n * 
+                SLIDE_SECONDS), e -> endSlideshow()));
+        slideshow.play();
+    }
+    
+    /*
+    SHOWS SHAPE CAR
+    */
+    private void showSlide(int idx, int total) {
+        CarData car = model.getCars().get(idx);
+        CarModel carModel = new CarModel(car);
+        carModel.setScaleX(2.6);
+        carModel.setScaleY(2.6);
+        Node picture = carModel;
+        
+        carStage.getChildren().setAll(picture);
+        carInfoLabel.setText(String.format("Car #%d  -  %s %s   (%d of %d)",
+                car.getNumber(), car.getColorName(), car.getType(), idx + 1, total));
+
+        FadeTransition fade = new FadeTransition(Duration.millis(600), carStage);
+        fade.setFromValue(0);
+        fade.setToValue(1);
+        fade.play();
+    }
+
+    private void endSlideshow() {
+        if (slideshow != null) {
+            slideshow.stop();
+        }
+        stopSound();
+        slidePane.setVisible(false);
+        slidePane.setManaged(false);
+    }
+
+    
 }
     
     
