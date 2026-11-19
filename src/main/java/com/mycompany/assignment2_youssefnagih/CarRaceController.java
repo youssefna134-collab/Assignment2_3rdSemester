@@ -275,8 +275,23 @@ public class CarRaceController implements Initializable {
         }
     }
     
-    
+    private void carFinished(int idx) {
+        CarData car = model.getCars().get(idx);
+        model.recordFinish(car);
 
+        int place = model.getFinishOrder().size();
+        if (place == 1) {
+            messageArea.appendText("Car #" + car.getNumber()  + car.getColorName()
+                    + "crosses the finish line first\n");
+        } else {
+            messageArea.appendText("Car #" + car.getNumber() + car.getColorName()
+                    + "finishes in place " + place + "\n");
+        }
+
+        
+    }
+
+    
     
 }
     
