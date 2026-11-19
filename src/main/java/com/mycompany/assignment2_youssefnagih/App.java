@@ -6,33 +6,31 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 
-/**
- * JavaFX App
- */
+/*
+@author Youssef Nagih
+6372635
+*/
 public class App extends Application {
 
-    private static Scene scene;
+    private CarRaceController controller;
 
     @Override
-    public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
-        stage.setScene(scene);
+    public void start(Stage stage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("CarRaceFXML.fxml"));
+        Parent root = loader.load();
+        controller = loader.getController();
+
+        stage.setTitle("Campus Grand Prix");
+        stage.setScene(new Scene(root, 1000, 720));
         stage.show();
+
+        controller.start();
     }
 
-    static void setRoot(String fxml) throws IOException {
-        scene.setRoot(loadFXML(fxml));
-    }
-
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
-    }
+    
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
-
 }
