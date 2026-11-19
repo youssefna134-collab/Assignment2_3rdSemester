@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 
 /*
+GITHUB: https://github.com/youssefna134-collab/Assignment2_3rdSemester
 @author Youssef Nagih
 6372635
 */
@@ -27,9 +28,7 @@ public class App extends Application {
 
         controller.start();
     }
-
     
-
     public static void main(String[] args) {
         launch(args);
     }

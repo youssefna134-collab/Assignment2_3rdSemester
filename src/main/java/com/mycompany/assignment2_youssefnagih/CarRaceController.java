@@ -60,7 +60,6 @@ public class CarRaceController implements Initializable {
     @FXML
     private Button pauseButton;
     @FXML
-    @FXML
     private Label speedLabel;
     @FXML
     private Slider speedSlider;

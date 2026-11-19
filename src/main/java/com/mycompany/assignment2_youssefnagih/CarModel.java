@@ -15,7 +15,8 @@ import javafx.scene.text.Text;
 
 /**
  *
- * @author scrub
+ * @author Youssef Nagih
+ * 6372635
  */
 public class CarModel extends Group {
     
@@ -54,6 +55,9 @@ public class CarModel extends Group {
 
     }
     
+    /*
+    helper method to create the wheel and its design
+    */
     private static Group createWheel(double cx, double cy) {
         Circle wheel = new Circle(cx, cy, 8, Color.DIMGRAY);
         wheel.setStroke(Color.BLACK);
