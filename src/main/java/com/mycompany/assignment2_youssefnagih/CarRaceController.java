@@ -29,7 +29,8 @@ import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.util.Duration;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 
 /**
@@ -115,6 +116,7 @@ public class CarRaceController implements Initializable {
      @FXML
     private void onStart() {
         if (state == State.IDLE) {
+            launchRace();
             state = State.RUNNING;
         } else if (state == State.PAUSED) {
             for (ParallelTransition race : races) {
@@ -176,7 +178,7 @@ public class CarRaceController implements Initializable {
     */
     private void startSound() {
         try {
-            Media media = new Media(getClass().getResource("/sounds/race.wav").toExternalForm());
+            Media media = new Media(getClass().getResource("race.wav").toExternalForm());
             player = new MediaPlayer(media);
             player.setCycleCount(MediaPlayer.INDEFINITE);
             player.setAutoPlay(true);
