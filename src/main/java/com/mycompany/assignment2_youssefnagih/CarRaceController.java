@@ -6,6 +6,7 @@ package com.mycompany.assignment2_youssefnagih;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.animation.ParallelTransition;
 
 /**
  * FXML Controller class
@@ -26,6 +28,15 @@ import javafx.scene.layout.VBox;
  */
 public class CarRaceController implements Initializable {
 
+    private static final double SLIDE_SECONDS = 2.5;
+    private static final double WHEEL_RADIUS = 8;
+    private static final String INTRO = "Press start to begin the race";
+            
+
+    private enum State { 
+        IDLE, RUNNING, PAUSED, FINISHED 
+    }
+    
     @FXML
     private BorderPane racePane;
     @FXML
@@ -50,6 +61,9 @@ public class CarRaceController implements Initializable {
     private Label carInfoLabel;
     @FXML
     private Button skipButton;
+    
+     private final CarRaceModel model = new CarRaceModel();
+     private State state = State.IDLE;
 
     /**
      * Initializes the controller class.
@@ -59,17 +73,59 @@ public class CarRaceController implements Initializable {
         // TODO
     }    
 
-    @FXML
-    private void onStart(ActionEvent event) {
+     @FXML
+    private void onStart() {
+        if (state == State.IDLE) {
+            launchRace();
+            state = State.RUNNING;
+        } else if (state == State.PAUSED) {
+            for (ParallelTransition race : races) {
+                if (race.getStatus() == Animation.Status.PAUSED) {
+                    race.play();
+                }
+            }
+            state = State.RUNNING;
+        }
+        updateButtons();
     }
 
     @FXML
-    private void onPause(ActionEvent event) {
+    private void onPause() {
+        if (state != State.RUNNING) {
+            return;
+        }
+        for (ParallelTransition race : races) {
+            if (race.getStatus() == Animation.Status.RUNNING) {
+                race.pause();
+            }
+        }
+        state = State.PAUSED;
+        updateButtons();
     }
 
     @FXML
-    private void onReset(ActionEvent event) {
+    private void onReset() {
+        for (ParallelTransition race : races) {
+            race.stop();
+        }
+        races.clear();
+        for (CarModel shape : carModels) {
+            shape.setTranslateX(0);
+            shape.getFrontWheel().setRotate(0);
+            shape.getRearWheel().setRotate(0);
+            shape.setWinnerGlow(false);
+        }
+        model.resetRace();
+        state = State.IDLE;
+        messageArea.setText(INTRO);
+        updateButtons();
     }
+    
+       private void updateButtons() {
+        startButton.setDisable(state == State.RUNNING || state == State.FINISHED);
+        pauseButton.setDisable(state != State.RUNNING);
+       }
+
 
     @FXML
     private void onSkip(ActionEvent event) {
