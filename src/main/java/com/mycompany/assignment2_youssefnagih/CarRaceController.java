@@ -278,11 +278,11 @@ public class CarRaceController implements Initializable {
 
         int place = model.getFinishOrder().size();
         if (place == 1) {
-            messageArea.appendText("Car #" + car.getNumber()  + car.getColorName()
-                    + "crosses the finish line first\n");
+            messageArea.appendText("Car #" + car.getNumber() +  " ("  + car.getColorName()
+                    + ") crosses the finish line first\n");
         } else {
             messageArea.appendText("Car #" + car.getNumber() + car.getColorName()
-                    + "finishes in place " + place + "\n");
+                    + ") finishes in place " + place + "\n");
         }
 
         if (model.isRaceOver()) {
@@ -298,16 +298,17 @@ public class CarRaceController implements Initializable {
     private String buildResults() {
         CarData winner = model.getWinner();
         StringBuilder sb = new StringBuilder();
-        sb.append("Congratulations! Car #").append(winner.getNumber()) 
+        sb.append("Congratulations! Car #").append(winner.getNumber()).append(" (")
           .append(winner.getColorName()).append(" ").append(winner.getType())
-          .append("wins the race\n\n");
+          .append(") wins the race\n\n");
         sb.append("Final results:\n");
         int place = 1;
         for (CarData car : model.getFinishOrder()) {
-            sb.append(place++).append(" Car #").append(car.getNumber())
+            sb.append(place++).append(" Car #").append(car.getNumber()).append(" - ")
               .append(car.getColorName()).append(" ").append(car.getType()).append("\n");
         }
 
+        sb.append("\n Animations used: TranslateTransition, RotateTransition, ParallelTransition.");
         return sb.toString();
     }
 }
