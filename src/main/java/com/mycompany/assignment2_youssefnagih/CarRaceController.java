@@ -288,8 +288,25 @@ public class CarRaceController implements Initializable {
                     + "finishes in place " + place + "\n");
         }
 
-        
+        if (model.isRaceOver()) {
+            state = State.FINISHED;
+            messageArea.setText(buildResults());
+            updateButtons();
+        }
     }
+    
+    private String buildResults() {
+        CarData winner = model.getWinner();
+        StringBuilder sb = new StringBuilder();
+        sb.append("Congratulations! Car #").append(winner.getNumber()).append(" (")
+          .append(winner.getColorName()).append(" ").append(winner.getType())
+          .append(") wins the race!\n\n");
+        sb.append("Final results:\n");
+        int place = 1;
+        for (CarData car : model.getFinishOrder()) {
+            sb.append(place++).append(". Car #").append(car.getNumber()).append(" - ")
+              .append(car.getColorName()).append(" ").append(car.getType()).append("\n");
+        }
 
     
     
