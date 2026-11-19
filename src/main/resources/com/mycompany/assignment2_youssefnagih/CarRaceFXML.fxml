@@ -6,9 +6,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.mycompany.assignment2_youssefnagih.CarRaceController" styleClass="root-pane" stylesheets="@../../styles/carracefxml.css" prefWidth="1000" prefHeight="720">
-
+<StackPane xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="com.mycompany.assignment2_youssefnagih.CarRaceController" styleClass="root-pane" stylesheets="@carracefxml.css" prefWidth="1000" prefHeight="720">
+    
     <BorderPane fx:id="racePane">
         <top>
             <Label text="Campus Grand Prix" styleClass="title" BorderPane.alignment="CENTER">

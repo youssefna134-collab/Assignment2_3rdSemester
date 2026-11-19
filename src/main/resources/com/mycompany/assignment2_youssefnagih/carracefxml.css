@@ -1,7 +1,82 @@
 /*
- * Empty Stylesheet file.
+ * Youssef Nagih
+    Style sheet
  */
 
-.mainFxmlClass {
 
+
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom, #1b2838, #0d1520);
 }
+
+.title {
+    -fx-font-size: 30px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffd54f;
+}
+
+.subtitle {
+    -fx-font-size: 16px;
+    -fx-text-fill: #cfd8dc;
+}
+
+.car-info {
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+.track {
+    -fx-background-color: #3a3f47;
+    -fx-border-color: #ffd54f;
+    -fx-border-width: 3;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.lane-dash {
+    -fx-stroke-dash-array: 14 12;
+}
+
+.finish-dash {
+    -fx-stroke-dash-array: 9 9;
+}
+
+.finish-dash-offset {
+    -fx-stroke-dash-array: 9 9;
+    -fx-stroke-dash-offset: 9;
+}
+
+.race-button {
+    -fx-background-color: #ffd54f;
+    -fx-text-fill: #1b2838;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 20;
+    -fx-padding: 8 22 8 22;
+    -fx-cursor: hand;
+}
+
+.race-button:hover {
+    -fx-background-color: #ffe082;
+}
+
+.race-button:disabled {
+    -fx-opacity: 0.4;
+}
+
+.speed-label {
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.slider .axis {
+    -fx-tick-label-fill: white;
+}
+
+.message-area {
+    -fx-control-inner-background: #101820;
+    -fx-text-fill: #e0f7fa;
+    -fx-font-size: 13px;
+    -fx-highlight-fill: #ffd54f;
+}
+
